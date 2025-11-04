@@ -21600,14 +21600,15 @@ header.br_header.header-default.vertical-slide-portfolio {
         padding-top: 15px;
         padding-bottom: 15px;
         width: 250px;
+        min-width: 220px;
         height: auto;
         max-width: 100%; }
         @media only screen and (min-width: 992px) and (max-width: 1199px) {
           .header-default .header__wrapper .header-left .logo a img {
-            width: 140px !important; } }
+            width: 220px !important; } }
         @media only screen and (max-width: 767px) {
           .header-default .header__wrapper .header-left .logo a img {
-            width: 110px !important; } }
+            width: 220px !important; } }
     .header-default .header__wrapper .header-flex-right {
       display: -webkit-box;
       display: -webkit-flex;
@@ -21832,7 +21833,8 @@ header.br_header.header-default.vertical-slide-portfolio {
   padding-bottom: 31px; }
 
 .header-default.headroom--not-top .header__wrapper .header-left .logo a img {
-  width: 200px; }
+  width: 220px;
+  min-width: 220px; }
 
 .header-default.header-architecture.headroom--not-top .header__wrapper .header-left .logo a img {
   width: auto; }
@@ -22989,7 +22991,8 @@ Header Font Family
         -ms-flex-positive: 1;
         flex-grow: 1; }
         .popup-mobile-manu .inner .mobileheader .logo a img {
-          width: 115px;
+          width: 220px;
+          min-width: 220px;
           height: auto;
           max-width: 100%; }
       .popup-mobile-manu .inner .mobileheader .mobile-close {
