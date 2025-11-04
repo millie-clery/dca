@@ -387,7 +387,98 @@
 
     var $html = $('html'),
         $demoOption = $('.demo-option-container'),
-        $body = $('body');
+        $body = $('body'),
+        $mobileTrigger = $('.popup-mobile-click'),
+        $mobileMenu = $('#mobile-menu'),
+        $mobileCloseButton = $('.mobile-close'),
+        focusableMenuSelector = 'a[href]:not([tabindex="-1"]):not([disabled]), button:not([disabled]):not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])',
+        $lastTrigger = $mobileTrigger.first();
+
+    function normalizePathname(url) {
+        var parser = document.createElement('a');
+        parser.href = url;
+        var pathname = parser.pathname || '';
+        pathname = pathname.replace(/\\/g, '/');
+        if (pathname.charAt(0) !== '/') {
+            pathname = '/' + pathname;
+        }
+        pathname = pathname.replace(/index\.html$/i, '');
+        if (pathname.length > 1 && pathname.endsWith('/')) {
+            pathname = pathname.slice(0, -1);
+        }
+        if (pathname === '') {
+            pathname = '/';
+        }
+        return pathname;
+    }
+
+    function setActiveNavigationLinks() {
+        var currentPath = normalizePathname(window.location.href);
+        var selector = '.mainmenu a, .object-custom-menu a';
+        $(selector).each(function () {
+            var linkPath = normalizePathname(this.href);
+            var isHomeLink = linkPath === '/';
+            var isExactMatch = linkPath === currentPath;
+            var isSectionMatch = !isHomeLink && currentPath.indexOf(linkPath + '/') === 0;
+
+            if ((isHomeLink && isExactMatch) || isExactMatch || isSectionMatch) {
+                this.setAttribute('aria-current', 'page');
+                this.classList.add('is-active');
+            }
+        });
+    }
+
+    setActiveNavigationLinks();
+
+    function focusFirstMenuItem() {
+        var $focusableItems = $mobileMenu.find(focusableMenuSelector).filter(':visible');
+        if ($focusableItems.length) {
+            setTimeout(function () {
+                $focusableItems.first().trigger('focus');
+            }, 10);
+        }
+    }
+
+    function trapFocus(event) {
+        if (event.key !== 'Tab') {
+            return;
+        }
+
+        var $focusableItems = $mobileMenu.find(focusableMenuSelector).filter(':visible');
+        if (!$focusableItems.length) {
+            return;
+        }
+
+        var first = $focusableItems[0];
+        var last = $focusableItems[$focusableItems.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            $(last).trigger('focus');
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            $(first).trigger('focus');
+        }
+    }
+
+    function handleEscape(event) {
+        if (event.key === 'Escape' || event.key === 'Esc') {
+            menuClose();
+        }
+    }
+
+    function menuOpen($trigger) {
+        $lastTrigger = $trigger;
+        $body.addClass('popup-mobile-menu-wrapper');
+        $html.css({
+            overflow: "hidden"
+        });
+        $mobileTrigger.attr('aria-expanded', 'false');
+        $trigger.attr('aria-expanded', 'true');
+        focusFirstMenuItem();
+        $mobileMenu.on('keydown.mobileMenuTrap', trapFocus);
+        $(document).on('keydown.mobileMenuEscape', handleEscape);
+    }
 
     function searchClose() {
         $body.removeClass('page-search-popup-opened'), $html.css({
@@ -424,28 +515,39 @@
     =====================================*/
 
     function menuClose() {
-        $body.removeClass('popup-mobile-menu-wrapper'), $html.css({
+        if (!$body.hasClass('popup-mobile-menu-wrapper')) {
+            return;
+        }
+        $body.removeClass('popup-mobile-menu-wrapper');
+        $html.css({
             overflow: ""
-        })
+        });
+        $mobileTrigger.attr('aria-expanded', 'false');
+        $mobileMenu.off('keydown.mobileMenuTrap');
+        $(document).off('keydown.mobileMenuEscape');
+        setTimeout(function () {
+            if ($lastTrigger && $lastTrigger.length) {
+                $lastTrigger.trigger('focus');
+            } else {
+                $mobileTrigger.first().trigger('focus');
+            }
+        }, 10);
     };
 
-    $('.popup-mobile-click').on('click', function (e) {
-        e.preventDefault(),
-            function () {
-                $body.addClass('popup-mobile-menu-wrapper'), $html.css({
-                    overflow: "hidden"
-                });
-            }()
+    $mobileTrigger.on('click', function (e) {
+        e.preventDefault();
+        menuOpen($(this));
     });
-    
 
-    $('.mobile-close').on('click', function (e) {
+
+    $mobileCloseButton.on('click', function (e) {
         e.preventDefault();
         menuClose();
     });
     $('.popup-mobile-visiable').on('click', function (e) {
         e.target === this && menuClose();
     });
+
 
     /* =============================
     	13. Option Demo

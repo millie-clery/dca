@@ -22440,7 +22440,10 @@ Freelancer Area
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  cursor: pointer; }
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 0; }
   .manu-hamber.light-version {
     color: #fff; }
   .manu-hamber.black-version {
@@ -22989,15 +22992,18 @@ Header Font Family
           width: 115px;
           height: auto;
           max-width: 100%; }
-      .popup-mobile-manu .inner .mobileheader a.mobile-close {
+      .popup-mobile-manu .inner .mobileheader .mobile-close {
         position: relative;
         cursor: pointer;
         height: 40px;
         width: 40px;
         -webkit-flex-shrink: 0;
         -ms-flex-negative: 0;
-        flex-shrink: 0; }
-        .popup-mobile-manu .inner .mobileheader a.mobile-close::before, .popup-mobile-manu .inner .mobileheader a.mobile-close::after {
+        flex-shrink: 0;
+        background: transparent;
+        border: 0;
+        padding: 0; }
+        .popup-mobile-manu .inner .mobileheader .mobile-close::before, .popup-mobile-manu .inner .mobileheader .mobile-close::after {
           position: absolute;
           top: 19px;
           left: 8px;
@@ -23011,15 +23017,15 @@ Header Font Family
           -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
           -o-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
           transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
-        .popup-mobile-manu .inner .mobileheader a.mobile-close::before {
+        .popup-mobile-manu .inner .mobileheader .mobile-close::before {
           -webkit-transform: rotate(-45deg);
           -ms-transform: rotate(-45deg);
           transform: rotate(-45deg); }
-        .popup-mobile-manu .inner .mobileheader a.mobile-close::after {
+        .popup-mobile-manu .inner .mobileheader .mobile-close::after {
           -webkit-transform: rotate(45deg);
           -ms-transform: rotate(45deg);
           transform: rotate(45deg); }
-        .popup-mobile-manu .inner .mobileheader a.mobile-close:hover::before, .popup-mobile-manu .inner .mobileheader a.mobile-close:hover::after {
+        .popup-mobile-manu .inner .mobileheader .mobile-close:hover::before, .popup-mobile-manu .inner .mobileheader .mobile-close:hover::after {
           -webkit-transform: none;
           -ms-transform: none;
           transform: none; }
@@ -23033,8 +23039,26 @@ Header Font Family
   list-style: none;
   margin: 20px 40px 30px; }
   .object-custom-menu li {
-    font-size: 14px;
+    font-size: 18px;
     color: #ffffff; }
+  .object-custom-menu li + li {
+    margin-top: 16px; }
+  .object-custom-menu li a {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 400;
+    display: block;
+    text-decoration: none; }
+    .object-custom-menu li a span {
+      color: inherit;
+      font-size: inherit; }
+    .object-custom-menu li a:focus,
+    .object-custom-menu li a:hover {
+      color: #ffffff; }
+    .object-custom-menu li a[aria-current="page"],
+    .object-custom-menu li a.is-active {
+      font-weight: 700;
+      color: #ffffff; }
   .object-custom-menu li.has-mega-menu {
     position: relative;
     border-top: 1px solid transparent;
@@ -23046,9 +23070,9 @@ Header Font Family
       padding-bottom: 19px;
       display: block;
       position: relative; }
-      .object-custom-menu li.has-mega-menu > a span {
-        font-size: 14px;
-        color: #999999; }
+    .object-custom-menu li.has-mega-menu > a span {
+      font-size: inherit;
+      color: inherit; }
       .object-custom-menu li.has-mega-menu > a::after {
         position: absolute;
         top: 50%;
